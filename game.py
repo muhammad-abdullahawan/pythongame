@@ -1,23 +1,29 @@
+import tkinter as tk
+from tkinter import messagebox
 import random
 
 
-def start_game():
-    number = random.randint(1, 10)
-    attempts = 0
-    print("Welcome to the Guessing Game!")
-
-    while attempts < 3:
-        guess = int(
-            input(f"Attempt {attempts + 1}/3 - Guess a number (1-10): "))
-        attempts += 1
-
-        if guess == number:
-            print(f"You won in {attempts} attempts!")
-            return
+def check_guess():
+    try:
+        guess = int(entry.get())
+        if guess == secret_number:
+            messagebox.showinfo("Result", "You Won!")
+            root.destroy()
         else:
-            print("Wrong guess!")
+            messagebox.showwarning("Result", "Wrong! Try again.")
+    except ValueError:
+        messagebox.showerror("Error", "Please enter a valid number.")
 
-    print(f"Game Over! The number was {number}")
 
+root = tk.Tk()
+root.title("Keele Game Assignment")
+root.geometry("300x200")
 
-start_game()
+secret_number = random.randint(1, 10)
+
+tk.Label(root, text="Guess a number between 1 and 10", pady=20).pack()
+entry = tk.Entry(root)
+entry.pack()
+tk.Button(root, text="Submit Guess", command=check_guess, pady=10).pack()
+
+root.mainloop()
